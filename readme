@@ -1,0 +1,2 @@
+本版本的route和controller比较弱，需要通过中间结构来传递数据
+新版本直接new一个controller，然后把数据交个controller
