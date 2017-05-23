@@ -8,6 +8,7 @@ import (
 	"github.com/go-xorm/cachestore"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
+	"github.com/hsyan2008/go-logger/logger"
 )
 
 var engine *xorm.Engine
@@ -23,7 +24,7 @@ func Init_db() {
 
 	engine, err = xorm.NewEngine(driver, dbDsn)
 	if err != nil {
-		Warn(err)
+		logger.Warn(err)
 		panic(err)
 	}
 

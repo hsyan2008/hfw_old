@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"runtime"
 	"strings"
+
+	"github.com/hsyan2008/go-logger/logger"
 )
 
 type Router struct {
@@ -15,8 +17,8 @@ type Router struct {
 
 func (this *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	Debug(r.Method, r.URL.Path, "start")
-	defer Debug(r.Method, r.URL.Path, "end")
+	logger.Debug(r.Method, r.URL.Path, "start")
+	defer logger.Debug(r.Method, r.URL.Path, "end")
 
 	//把url补全为2段
 	trimUrl := strings.Trim(strings.ToLower(r.URL.Path), "/")
@@ -69,10 +71,10 @@ func (this *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 			buf := make([]byte, 1<<20)
 			num := runtime.Stack(buf, false)
-			Warn(num, string(buf))
+			logger.Warn(num, string(buf))
 
 			errMsg := fmt.Sprint(err)
-			Warn(errMsg)
+			logger.Warn(errMsg)
 			newInstance.MethodByName("ServerError").Call(noneValue)
 		}
 	}()

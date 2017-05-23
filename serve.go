@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/facebookgo/grace/gracehttp"
+	"github.com/hsyan2008/go-logger/logger"
 )
 
 func startServe() {
@@ -21,6 +22,6 @@ func startServe() {
 	// err:= s.ListenAndServe()
 
 	if err != nil {
-		Fatal("ListenAndServe: ", err)
+		logger.Fatal("ListenAndServe: ", err)
 	}
 }

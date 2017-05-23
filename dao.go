@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
+	"github.com/hsyan2008/go-logger/logger"
 )
 
 type Dao interface {
@@ -35,7 +37,7 @@ func (d *NoCacheDao) UpdateById(t interface{}) (err error) {
 	_, err = sess.Id(id).AllCols().Update(t)
 	if err != nil {
 		lastSQL, lastSQLArgs := sess.LastSQL()
-		Error(err, lastSQL, lastSQLArgs)
+		logger.Error(err, lastSQL, lastSQLArgs)
 	}
 
 	return
@@ -53,7 +55,7 @@ func (d *NoCacheDao) UpdateByIds(t interface{}, params map[string]interface{},
 	_, err = sess.Table(t).In("id", ids).Update(params)
 	if err != nil {
 		lastSQL, lastSQLArgs := sess.LastSQL()
-		Error(err, lastSQL, lastSQLArgs)
+		logger.Error(err, lastSQL, lastSQLArgs)
 	}
 
 	return
@@ -79,7 +81,7 @@ func (d *NoCacheDao) UpdateByWhere(t interface{}, params map[string]interface{},
 	_, err = sess.Table(t).Where(strings.Join(str, " "), args...).Update(params)
 	if err != nil {
 		lastSQL, lastSQLArgs := sess.LastSQL()
-		Error(err, lastSQL, lastSQLArgs)
+		logger.Error(err, lastSQL, lastSQLArgs)
 	}
 	return err
 }
@@ -90,7 +92,7 @@ func (d *NoCacheDao) Insert(t interface{}) (err error) {
 	_, err = sess.Insert(t)
 	if err != nil {
 		lastSQL, lastSQLArgs := sess.LastSQL()
-		Error(err, lastSQL, lastSQLArgs)
+		logger.Error(err, lastSQL, lastSQLArgs)
 	}
 	return
 }
@@ -101,7 +103,7 @@ func (d *NoCacheDao) SearchOne(t interface{}) (err error) {
 	_, err = sess.Get(t)
 	if err != nil {
 		lastSQL, lastSQLArgs := sess.LastSQL()
-		Error(err, lastSQL, lastSQLArgs)
+		logger.Error(err, lastSQL, lastSQLArgs)
 	}
 	return
 }
@@ -148,7 +150,7 @@ func (d *NoCacheDao) Search(t interface{}, cond map[string]interface{}) (err err
 		Limit(pageSize, (page-1)*pageSize).Find(t)
 	if err != nil {
 		lastSQL, lastSQLArgs := sess.LastSQL()
-		Error(err, lastSQL, lastSQLArgs)
+		logger.Error(err, lastSQL, lastSQLArgs)
 	}
 
 	return err
@@ -198,7 +200,7 @@ func (d *NoCacheDao) Count(t interface{}, cond map[string]interface{}) (total in
 	total, err = sess.Where(where, args...).Count(t)
 	if err != nil {
 		lastSQL, lastSQLArgs := sess.LastSQL()
-		Error(err, lastSQL, lastSQLArgs)
+		logger.Error(err, lastSQL, lastSQLArgs)
 	}
 
 	return

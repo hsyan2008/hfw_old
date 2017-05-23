@@ -10,6 +10,8 @@ import (
 	"strings"
 	"sync"
 	"text/template"
+
+	"github.com/hsyan2008/go-logger/logger"
 )
 
 // Init和Finish必定会执行，而且不允许被修改
@@ -105,7 +107,7 @@ func (this *Controller) Redirect(url string) {
 
 func (this *Controller) NotFound() {
 
-	Debug(this.Path, "NotFound")
+	logger.Debug(this.Path, "NotFound")
 	// this.ResponseWriter.WriteHeader(404) //firefox无法显示页面
 	this.TemplateFile = "notfound.html"
 	this.Data["title"] = "404错误"
@@ -137,7 +139,7 @@ func (this *Controller) Throw(code int64, msg string) {
 
 func (this *Controller) CheckErr(err error) {
 	if nil != err {
-		Error(err)
+		logger.Error(err)
 		this.Throw(99500, "系统错误")
 	}
 }
@@ -205,13 +207,13 @@ func (this *Controller) RenderFile() {
 		}()
 		err = t.Execute(writer, this)
 		if err != nil {
-			Warn(err)
+			logger.Warn(err)
 		}
 		// CheckErr(err)
 	} else {
 		err = t.Execute(this.ResponseWriter, this)
 		if err != nil {
-			Warn(err)
+			logger.Warn(err)
 		}
 		// CheckErr(err)
 	}

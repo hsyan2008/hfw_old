@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
+	"github.com/hsyan2008/go-logger/logger"
 )
 
 func init() {
@@ -52,19 +53,19 @@ func loadConfig() {
 //初始化log写入文件
 func setLog() {
 	lc := Config.Logger
-	SetLevelStr(lc.LogLevel)
-	SetConsole(lc.Console)
-	SetLogGoID(lc.LogGoID)
+	logger.SetLevelStr(lc.LogLevel)
+	logger.SetConsole(lc.Console)
+	logger.SetLogGoID(lc.LogGoID)
 
 	if lc.LogFile != "" {
 		if lc.LogType == "daily" {
-			SetRollingDaily(lc.LogFile)
+			logger.SetRollingDaily(lc.LogFile)
 		} else if lc.LogType == "roll" {
-			SetRollingFile(lc.LogFile, lc.LogMaxNum, lc.LogSize, lc.LogUnit)
+			logger.SetRollingFile(lc.LogFile, lc.LogMaxNum, lc.LogSize, lc.LogUnit)
 		} else {
-			Warn("请设置log存储方式")
+			logger.Warn("请设置log存储方式")
 		}
 	} else {
-		Warn("没有设置log目录和文件")
+		logger.Warn("没有设置log目录和文件")
 	}
 }
