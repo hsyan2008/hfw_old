@@ -14,8 +14,14 @@ func init() {
 	setLog()
 	Init_db()
 }
-func Run() {
-	startServe()
+
+func Run(files ...string) {
+	if len(files) != 2 {
+		startServe()
+	} else {
+		// startHttpsServe(files[0], files[1])
+		startHttpsServe2(files[0], files[1])
+	}
 }
 
 func loadConfig() {

@@ -58,7 +58,7 @@ type Controller struct {
 }
 
 func (this *Controller) Init(ctx *HttpContext) {
-	// Debug("Controller init")
+	// logger.Debug("Controller init")
 
 	this.HttpContext = *ctx
 	this.Data = make(map[string]interface{})
@@ -78,15 +78,15 @@ func (this *Controller) Init(ctx *HttpContext) {
 }
 
 func (this *Controller) Before() {
-	// Debug("Controller Before")
+	// logger.Debug("Controller Before")
 }
 
 func (this *Controller) After() {
-	// Debug("Controller After")
+	// logger.Debug("Controller After")
 }
 
 func (this *Controller) Finish() {
-	// Debug("Controller finish")
+	// logger.Debug("Controller finish")
 
 	// cookie := http.Cookie{Name: Config.Session.SessID, Value: this.Session.newid, Path: "/", HttpOnly: true}
 	// http.SetCookie(this.ResponseWriter, &cookie)
@@ -96,8 +96,11 @@ func (this *Controller) Finish() {
 }
 
 func (this *Controller) StopRun() {
-	// Debug("StopRun")
+	// logger.Debug("StopRun")
 	panic(StopRunErr)
+
+	//考虑用runtime.Goexit()，
+	//经测试，会执行defer，但连接在这里就中断了，浏览器拿不到结果
 }
 
 func (this *Controller) Redirect(url string) {
@@ -145,7 +148,7 @@ func (this *Controller) CheckErr(err error) {
 }
 
 func (this *Controller) Output() {
-	// Debug("Output")
+	// logger.Debug("Output")
 	if this.ResponseWriter.Header().Get("Location") != "" {
 		return
 	}
